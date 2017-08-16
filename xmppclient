@@ -1,0 +1,54 @@
+#!/usr/bin/python3
+#Autor: Jakub Pelikan (xpelik14)
+import load_parametr
+import init_service
+import interactive_mode
+import log_file
+
+if __name__ == '__main__':
+    log = log_file.log_file() #inicializace tridy pro praci s logovacimi soubory
+    try:
+        log.open_file() #otevreni log. souboru
+    except ValueError:
+        exit()
+    try:
+        parametrs = load_parametr.load_parametr(log) # nacteni parametru
+        parametrs.parametr_procces()
+        if (parametrs.get_parametr_count() == 1):
+            exit()
+        init = init_service.init_service(log)
+        # zpracovani parametru
+        if parametrs.get_value('--server') != None: #inicializace serveru
+            init.init_server_data(parametrs.get_value('--server'))
+            if parametrs.get_value('--register-user') != []:  #registrace noveho uzivatele
+                init.init_register_user(parametrs.get_value('--register-user'))
+            if parametrs.get_value('--log-user') != None: # prihlaseni uzivatele
+                init.init_log_user(parametrs.get_value('--log-user'))
+                if parametrs.get_value('--show-contactlist'): #zobrazeni listu kontaktu
+                    init.init_show_contactlist()
+                if parametrs.get_value('--add-user') != []: # pridani uzivatele do listu kontaktu
+                    init.init_add_user(parametrs.get_value('--add-user'))
+                if parametrs.get_value('--message') != [] and parametrs.get_value('--user') != []: #zaslani zpav
+                    init.init_send_message(parametrs.get_value('--message'),parametrs.get_value('--user'))
+                if parametrs.get_value('--wait') != None: # cekani na prichozi zpravy
+                    init.init_wait(parametrs.get_value('--wait'))
+            if parametrs.get_value('--interactive'): #interaktivni mod
+                im = interactive_mode.interactive_mode(init)
+                im.run()
+            else:
+                if parametrs.get_value('--log-user') != None: #odhlaseni uzivatele
+                    init.init_log_out()
+        else:
+            if parametrs.get_value('--interactive'): #interaktivni mod
+                im = interactive_mode.interactive_mode(init)
+                im.run()
+            else:
+                log.write_to_error("server name missing\n")
+        if parametrs.get_value('--help'): #zobrazeni napovedy
+            init.init_help()
+    except ValueError:
+        exit(False)
+    finally:
+        log.close_file() # uzavreni log. souboru
+    exit(True)
+

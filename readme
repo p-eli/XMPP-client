@@ -1,0 +1,21 @@
+Projekt: XMPP/Jabber klient
+Autor: Jakub Pelán
+Email: jakub.pelikan@gmail.com
+
+Popis programu
+Umožňuje vytvořit nový uživatelský účet nebo se připojit k stávajícímu účtu. Po přihlášení uživatele je možno přijímat a odesílat zprávy, přidávat a zobrazovat kontakty v listu kontaktů. Prováděné činnosti je možno zadat pomocí parametrů při spuštění aplikace, v interaktivním módu, nebo kombinací zadání pomocí parametrů a interaktivním módem. Aplikace umožňuje redefinici některých parametrů, což může být vzhledem k tomu, že aplikace je určená pro používaní v terminálu využito k provádění většího počtu příkazů během jednoho připojení k serveru.
+
+
+Příklady spuštění - lze použít libovolné kombinace parametrů
+    Registrace nového uživatele
+	./xmppclient -s netfox.fit.vutbr.cz:5222 -r xlogin00:pass
+
+    Přidáni uživatele/uživatelů do listu kontaktů (umožnuje redefinici parametrů)
+	./xmppclient -s netfox.fit.vutbr.cz:5222 -l xlogin00:pass -a xlogin01@netfox.fit.vutbr.cz -a xlogin02@netfox.fit.vutbr.cz
+
+    Odeslání jedné/více zpráv (umožnuje redefinici parametrů)
+	./xmppclient -s netfox.fit.vutbr.cz:5222 -l xlogin00:pass -m "testovaci zprava" -u xlogin01@netfox.fit.vutbr.cz -m "testovaci zprava1" -u xlogin02@netfox.fit.vutbr.cz 
+
+    Interaktivní mód 
+	./xmppclient -i
+
